@@ -1,0 +1,96 @@
+---
+title: "DATA605_HW8"
+output:
+  word_document: default
+  pdf_document:
+    latex_engine: xelatex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Page 303, Exercise 11
+
+A company buys 100 lightbulbs, each of which has an exponential lifetime of 1000 hours. What is the expected time for the first of these bulbs to burn out?
+
+```{r}
+n<-1000
+bulb<-100
+
+n/bulb
+```
+
+# Page 303, Exercise 14
+
+Assume that X1 and X2 are independent random variables, each having an exponential density with parameter $\lambda$. Show that Z = X1 − X2 has density
+
+$f_{z}(z)=\frac{1}{2}\lambda\:e^{-\lambda|z|}$
+
+```{r}
+knitr::include_graphics("C:\\new.jpeg")
+
+```
+
+# Page 320-321, Exercise 1
+
+Let X be a continuous random variable with mean μ = 10 and variance $ \sigma^2 = \frac{100}{3} $. Using Chebyshev’s Inequality, find an upper bound for the following probabilities.
+
+## a.
+
+$P(|X − 10| \geq 2)$
+
+```{r}
+s_2 <- 100/3
+s <- sqrt(s_2)
+
+#epsilon
+eps <- 2 
+
+#k
+k <- eps / s
+
+#probability
+p <- 1 / k^2
+p
+```
+
+## b.
+
+$P(|X − 10| \geq 5)$
+
+```{r}
+eps <- 5 
+
+k <- eps / s
+
+p <- 1 / k^2
+p
+```
+
+## c.
+
+$P(|X − 10| \geq 9)$
+
+```{r}
+eps <- 9 
+
+k <- eps / s
+
+p <- 1 / k^2
+p
+```
+
+## d. 
+
+$P(|X − 10| \geq 20)$
+
+```{r}
+eps <- 20 
+
+k <- eps / s
+
+p <- 1 / k^2
+p
+```

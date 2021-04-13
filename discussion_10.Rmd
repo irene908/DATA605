@@ -1,0 +1,44 @@
+---
+title: "Discussion 10"
+output:
+  pdf_document:
+    latex_engine: xelatex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Chapter 11.1, Exercise 3, page 414
+
+In Example 11.5, find P, P2, and P3. What is Pn?
+
+*Example 11.5* Each time a certain horse runs in a three-horse race, he has probability 1/2 of winning, 1/4 of coming in second, and 1/4 of coming in third, independent of the outcome of any previous race. We have an independent trials process, but it can also be considered from the point of view of Markov chain theory. The transition matrix is
+
+
+```{r}
+knitr::include_graphics('C://Markov.jpg')
+```
+
+*P* is:
+
+```{r}
+P = matrix(c(.5, .25, .25, .5, .25, .25, .5, .25, .25), nrow = 3, ncol = 3, byrow=T)
+P
+```
+
+* $P^2$ * is:
+
+```{r}
+P2 = P %*% P
+P2
+```
+
+* $P^3$ * is:
+
+```{r}
+P3 = P2 %*% P
+P3
+```
+
+From $P,\: P^2 \: and \: P^3$ it is clear that $P^n =P$

@@ -1,0 +1,35 @@
+---
+title: "Discussion_8"
+output:
+  pdf_document:
+    latex_engine: xelatex
+---
+# Chapter 8 , Exercise 10, Page 322
+
+## A student’s score on a particular calculus final is a random variable with values of [0, 100], mean 70, and variance 25.
+
+### a) Find a lower bound for the probability that the student’s score will fall between 65 and 75.
+
+$μ=70 \\$
+$\sigma^2=25 \\$
+$P(65\leq X \leq 75) \\$
+$\quad subtract\:μ  \\$
+$\quad P(65-70\leq X-70 \leq 75-70) \\$
+$\quad 1-P(|X-70| \geq 5) \\$
+Chebyshev's Inequality, $\\ \quad \frac{\sigma^2}{\epsilon^2} \\$
+$\quad 1- \frac{25}{5^2} =1-1=0 \\$
+
+So lower bound for the probability that the student’s score will fall between 65 and 75 is 0. 
+
+### b) If 100 students take the final, find a lower bound for the probability that the class average will fall between 65 and 75.
+
+$μ=70 \\$
+$\sigma^2=\frac{25}{100} \\$
+$P(65\leq X \leq 75) \\$
+$\quad subtract\:μ  \\$
+$\quad P(65-70\leq X-70 \leq 75-70) \\$
+$\quad 1-P(|X-70| \geq 5) \\$
+Chebyshev's Inequality, $\\ \quad \frac{\sigma^2}{\epsilon^2} \\$
+$\quad 1- \frac{\frac{25}{100}}{5^2} =1-\frac{1}{100}=\frac{99}{100} \\$
+
+If 100 students take the final, the lower bound for the probability that the class average will fall between 65 and 75 is 0.99.

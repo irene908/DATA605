@@ -1,0 +1,78 @@
+---
+title: "DATA605_HW11"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# PROBLEM STATEMENT
+
+Using the “cars” dataset in R, build a linear model for stopping distance as a function of speed and replicate the analysis of your textbook chapter 3 (visualization, quality evaluation of the model, and residual analysis.)
+
+## Head
+
+View the first 5 records in the "cars" dataset.
+
+```{r}
+head(cars)
+```
+
+## Summary
+
+To get an idea on the data viewing the summary below.
+
+```{r}
+summary(cars)
+```
+
+## Data Visualization
+
+Here *speed* is the independent variable and *dist* is the dependent variable. Plotting the dataset below to see how the distance increases as the speed increases. (I have used different colors to identify it better).
+
+```{r}
+plot(cars,col=c("brown","blue"))
+```
+
+### Histogram
+
+```{r}
+hist(cars$speed)
+hist(cars$dist)
+```
+
+## Linear Model
+
+```{r}
+L <- lm(dist ~ speed, cars)
+summary(L)
+```
+
+*intercept* is -17.5791 and *slope* is 3.9324. 
+
+So the One-Factor Regression Model is:
+
+$dist = -17.5791 + 3.9324 * speed$
+
+## Plot with linear model
+
+```{r}
+plot(cars,col=c("brown","orange"))
+abline(L,col="blue")
+```
+
+## Residual Plot
+
+```{r}
+plot(fitted(L), resid(L))
+```
+
+## Q-Q Plot
+
+It can be seen below that there is some right skew.
+
+```{r}
+qqnorm(resid(L),col="blue")
+qqline(resid(L),col="green")
+```

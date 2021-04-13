@@ -1,0 +1,62 @@
+---
+title: "DATA605_HW9"
+output:
+  pdf_document:
+    latex_engine: xelatex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1.
+
+11) The price of one share of stock in the Pilsdorff Beer Company (see Exercise 8.2.12) is given by Yn on the nth day of the year. Finn observes that the differences Xn = Yn+1 − Yn appear to be independent random variables with a common distribution having mean μ = 0 and variance $\sigma^2$ = 1/4. If Y1 = 100, estimate the probability that Y365 is 
+
+```{r}
+knitr::include_graphics("C://G.jpeg")
+knitr::include_graphics("C://A.jpeg")
+sd <- sqrt(91)
+```
+
+## a)
+
+$>=100$
+
+```{r}
+1 - pnorm(0, mean = 0, sd = sd)
+```
+
+## b)
+
+$>= 110$
+
+```{r}
+1 - pnorm(10, mean = 0, sd = sd)
+```
+
+## c)
+
+$>= 120$
+
+```{r}
+1 - pnorm(20, mean = 0, sd = sd)
+```
+
+# 2. 
+
+Calculate the expected value and variance of the binomial distribution using the moment generating function.
+
+```{r}
+knitr::include_graphics("C://2.1.jpeg")
+knitr::include_graphics("C://2.2.jpeg")
+```
+
+# 3. 
+
+Calculate the expected value and variance of the exponential distribution using the moment generating function.
+
+```{r}
+knitr::include_graphics("C://3.1.jpeg")
+knitr::include_graphics("C://3.2.jpeg")
+```

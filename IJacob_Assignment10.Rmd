@@ -1,0 +1,48 @@
+---
+title: "DATA605_HW10"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Problem Statement
+
+Smith is in jail and has 1 dollar; he can get out on bail if he has 8 dollars.A guard agrees to make a series of bets with him. If Smith bets A dollars,he wins A dollars with probability .4 and loses A dollars with probability .6.
+
+Find the probability that he wins 8 dollars before losing all of his money if
+
+## a) he bets 1 dollar each time (timid strategy).
+
+Using Gambler's Rule: 
+
+$s=1\\$
+$m=8\\$
+$p=0.4\\$
+$q=0.6\\$
+$P=\frac{1-(\frac{q}{p})^s}{1-(\frac{q}{p})^m}\\$
+
+```{r}
+s=1
+m=8
+p=0.4
+q=0.6
+P=(1 - (0.6/0.4)^1) / (1 - (0.6/0.4)^8)
+P
+```
+
+## b) he bets, each time, as much as possible but not more than necessary tobring his fortune up to 8 dollars (bold strategy).
+
+In this case Smith will bet 1, wins 2, then bets 2, wins 4, then bets 4 and wins 8. That means in 3 successes he will get the bail amount.
+
+so: $P_{bold}=0.4^3\\$
+
+```{r}
+P_bold=0.4**3
+P_bold
+```
+
+## c) Which strategy gives Smith the better chance of getting out of jail?
+
+b) gives Smith better chance of getting out of jail as the moves required as less than that of a). 

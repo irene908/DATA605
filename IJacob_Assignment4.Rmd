@@ -1,0 +1,107 @@
+---
+title: "DATA605_HW4"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(root.dir=normalizePath("C:\\Users\\irene\\OneDrive\\Documents\\R\\DATA605\\jpg"))
+memory.size(max = T)
+library(EBImage)
+library(doParallel)
+library(jpeg)
+library(kableExtra)
+library(OpenImageR)
+```
+
+## Preparation
+
+There are 17 files here so preparing the data.
+
+```{r}
+files=list.files("C:\\Users\\irene\\OneDrive\\Documents\\R\\DATA605\\jpg",pattern="\\.jpg")[1:17]
+```
+
+## Function to view the shoes
+
+```{r}
+height=1200; width=2500;scale=20 
+plot_jpeg = function(path, add=FALSE)
+{ jpg = readJPEG(path, native=T) # read the file
+  res = dim(jpg)[2:1] # get the resolution, [x, y]
+  if (!add) # initialize an empty plot area if add==FALSE
+    plot(1,1,xlim=c(1,res[1]),ylim=c(1,res[2]),asp=1,type='n',xaxs='i',yaxs='i',xaxt='n',yaxt='n',xlab='',ylab='',bty='n')
+  rasterImage(jpg,1,1,res[1],res[2])
+}
+```
+
+## Data loaded to array
+
+The data is loaded into an array 'im'. This array contains length, height and channels of the files.
+
+```{r}
+im=array(rep(0,length(files)*height/scale*width/scale*3), dim=c(length(files), height/scale, width/scale,3))
+
+for (i in 1:17){
+  temp=resize(readJPEG(paste0("C:\\Users\\irene\\OneDrive\\Documents\\R\\DATA605\\jpg\\", files[i])),height/scale, width/scale)
+  im[i,,,]=array(temp,dim=c(1, height/scale, width/scale,3))}
+```
+
+## Vectorize
+
+A for loop goes from 1 to 17 filling up the 3 channel vectors into a matrix 'flat'. This matrix is converted into a dataframe.
+
+```{r}
+flat=matrix(0, 17, prod(dim(im))) 
+for (i in 1:17) {
+  newim <- readJPEG(paste0("C:\\Users\\irene\\OneDrive\\Documents\\R\\DATA605\\jpg\\", files[i]))
+  r=as.vector(im[i,,,1]); g=as.vector(im[i,,,2]);b=as.vector(im[i,,,3])
+  flat[i,] <- t(c(r, g, b))
+}
+shoes=as.data.frame(t(flat))
+```
+
+## Plots
+
+Creating plots for the images(just the first ones).
+
+```{r}
+par(mfrow=c(3,3))
+par(mai=c(.3,.3,.3,.3))
+for (i in 1:17){  
+plot_jpeg(writeJPEG(im[i,,,]))
+}
+```
+
+## Eigencomponents from Correlation Structure
+
+The shoes dataframe is scaled. z transformation is taking place here.
+scaled has mean as 0 and standard deviation 1
+
+```{r}
+scaled=scale(shoes, center = TRUE, scale = TRUE)
+mean.shoe=attr(scaled, "scaled:center") 
+std.shoe=attr(scaled, "scaled:scale")  
+
+Sigma_=cor(scaled) # Corelation (Covariance)
+```
+
+### Eigencomponents
+
+Cumulative proportion of variability is derived here,ie., variability associated with each value is converted to the cumulative proportion of it.
+
+```{r}
+myeigen=eigen(Sigma_)
+cumsum(myeigen$values) / sum(myeigen$values)
+```
+
+## Eigenshoes
+
+The task here is to visualize eigenimagery that accounts for 80% of the variability so we take the first 2 only.
+
+```{r}
+scaling=diag(myeigen$values[1:2]^(-1/2)) / (sqrt(nrow(scaled)-1))
+eigenshoes=scaled%*%myeigen$vectors[,1:2]%*%scaling
+imageShow(array(eigenshoes[,1], c(60,125,3)))
+```
+

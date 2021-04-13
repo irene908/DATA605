@@ -1,0 +1,164 @@
+---
+title: "DATA_HW5"
+output:
+    pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 1. 
+
+(Bayesian).  A new test for multinucleoside-resistant (MNR) human immunodeficiency virus type 1 (HIV-1) variants was recently developed.  The test maintains 96% sensitivity, meaning that, for those with the disease, it will correctly report “positive” for 96% of them.  The test is also 98% specific, meaning that, for those without the disease, 98% will be correctly reported as “negative.”  MNR HIV-1 is considered to be rare (albeit emerging), with about a .1% or .001 prevalence rate.  Given the prevalence rate, sensitivity, and specificity estimates, what is the probability that an individual who is reported as positive by the new test actually has the disease?  If the median cost (consider this the best point estimate) is about $100,000 per positive case total and the test itself costs $1000 per administration, what is the total first-year cost for treating 100,000 individuals?
+
+```{r}
+PBA1= 0.96
+PA1= 0.001
+PBA2= 0.02
+PA2= 0.999
+
+PA1B= (PBA1*PA1)/((PBA1*PA1)+(PBA2*PA2))
+print("The probability that an individual who is reported as positive by the new test actually has the disease : ")
+PA1B
+
+```
+
+# 2.
+
+(Binomial).  The probability of your organization receiving a Joint Commission inspection in any given month is .05.  What is the probability that, after 24 months, you received exactly 2 inspections?  What is the probability that, after 24 months, you received 2 or more inspections?  What is the probability that your received fewer than 2 inspections?  What is the expected number of inspections you should have received?  What is the standard deviation?
+
+```{r}
+p=0.05
+x=2
+n=24
+mu= x*n
+variance=mu*(x-1)
+sd=sqrt(variance)
+grt_equal_2=pbinom(x,n,p)
+less_2=1-grt_equal_2
+
+mysample=rbinom(10000,24,0.05)
+equal_2=length(mysample[mysample=2])/length(mysample)
+
+print("probability that, after 24 months, you received exactly 2 inspections: ")
+equal_2
+print("probability that your received fewer than 2 inspections: ")
+less_2
+print("probability that, after 24 months, you received 2 or more inspections: ")
+grt_equal_2
+print("expected number of inspections you should have received: ")
+mu
+print("standard deviation: ")
+sd
+
+```
+
+# 3.
+
+You are modeling the family practice clinic and notice that patients arrive at a rate of 10 per hour.  What is the probability that exactly 3 arrive in one hour?  What is the probability that more than 10 arrive in one hour?  How many would you expect to arrive in 8 hours?  What is the standard deviation of the appropriate probability distribution?  If there are three family practice providers that can see 24 templated patients each day, what is the percent utilization and what are your recommendations?
+
+```{r}
+l=10
+t=1
+var=mu=l*t
+sd=sqrt(mu)
+print("standard deviation:")
+sd
+grt_10_1hr= 1- ppois(10,l)
+print("probability that more than 10 arrive in one hour: ")
+grt_10_1hr
+i=1
+sm=0
+for(i in 1:8){sm=sm+exp(-10)*10^i/factorial(i)}
+hr_8= 1-sm
+print("arrive in 8 hours: ")
+hr_8
+
+print("If there are three family practice providers that can see 24 templated patients each day, what is the percent utilization and what are your recommendations?")
+print("assuming that the number of working hours is 8 and equal number of paitients are seen each hour")
+print("24/8=")
+24/8
+```
+
+# 4.
+
+(Hypergeometric).  Your subordinate with 30 supervisors was recently accused of favoring nurses.  15 of the subordinate’s workers are nurses and 15 are other than nurses.  As evidence of malfeasance, the accuser stated that there were 6 company-paid trips to Disney World for which everyone was eligible.  The supervisor sent 5 nurses and 1 non-nurse.  If your subordinate acted innocently, what was the probability he/she would have selected five nurses for the trips?  How many nurses would we have expected your subordinate to send?  How many non-nurses would we have expected your subordinate to send?
+
+```{r}
+knitr::include_graphics("C:\\Users\\irene\\OneDrive\\Documents\\R\\DATA605\\Capture.jpg")
+knitr::include_graphics("C:\\Users\\irene\\OneDrive\\Documents\\R\\DATA605\\hw_5_hypergeometric.jpeg")
+```
+
+We should have expected subordinate to send 3 nurses and 3 non nurses to the trip.
+
+
+# 5.
+
+(Geometric).  The probability of being seriously injured in a car crash in an unspecified location is about .1% per hour.  A driver is required to traverse this area for 1200 hours in the course of a year.  What is the probability that the driver will be seriously injured during the course of the year?  In the course of 15 months? What is the expected number of hours that a driver will drive before being seriously injured?  Given that a driver has driven 1200 hours, what is the probability that he or she will be injured in the next 100 hours? 
+
+```{r}
+knitr::include_graphics("C:\\Users\\irene\\OneDrive\\Documents\\R\\DATA605\\hw_5_geometric.jpeg")
+
+dgeom(x = 1200, prob = 0.001)
+dgeom(x = 1500, prob = 0.001)
+dgeom(x = 1300, prob = 0.001)
+
+```
+
+# 6.
+
+You are working in a hospital that is running off of a primary generator which fails about once in 1000 hours.  What is the probability that the generator will fail more than twice in 1000 hours?  What is the expected value?
+
+```{r}
+t=1
+l=1
+
+P_2 = 1-ppois(2,1)
+print("probability that the generator will fail more than twice in 1000 hours is: ")
+P_2
+
+mn= l*t
+print("the expected value is: ")
+mn
+```
+
+# 7.
+
+A surgical patient arrives for surgery precisely at a given time.  Based on previous analysis (or a lack of knowledge assumption), you know that the waiting time is uniformly distributed from 0 to 30 minutes.  What is the probability that this patient will wait more than 10 minutes?  If the patient has already waited 10 minutes, what is the probability that he/she will wait at least another 5 minutes prior to being seen?  What is the expected waiting time?
+
+$f(x)=\frac{1}{(b-a)}$
+$E(x)=\frac{1}{2}(a+b)$
+
+```{r}
+# when waiting time is uniformly distributed from 0 to 30 minutes the probability that this patient will wait more than 10 minutes
+
+a=11
+b=30
+height= 1/30
+width=b-a
+P_Grt_10=height*width
+P_Grt_10
+E_Grt_10=0.5*(a+b)
+E_Grt_10
+# If the patient has already waited 10 minutes, the probability that he/she will wait at least another 5 minutes prior to being seen
+a=15
+width=b-a
+
+P_Grt_15=height*width
+P_Grt_15
+
+E_Grt_15=0.5*(a+b)
+E_Grt_15
+```
+
+# 8.
+
+Your hospital owns an old MRI, which has a manufacturer’s lifetime of about 10 years (expected value).  Based on previous studies, we know that the failure of most MRIs obeys an exponential distribution.  What is the expected failure time?  What is the standard deviation?  What is the probability that your MRI will fail after 8 years?  Now assume that you have owned the machine for 8 years.  Given that you already owned the machine 8 years, what is the probability that it will fail in the next two years? 
+hw_5_exponential
+
+```{r}
+knitr::include_graphics("C:\\Users\\irene\\OneDrive\\Documents\\R\\DATA605\\hw_5_exponential.jpeg")
+
+dexp(8,0.1)
+```

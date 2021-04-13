@@ -1,0 +1,37 @@
+---
+title: "Discussion_9"
+output:
+  pdf_document:
+    latex_engine: xelatex
+---
+# Chapter 9.2 , Exercise 7, Page 355
+
+## A surveying instrument makes an error of −2, −1, 0, 1, or 2 feet with equal probabilities when measuring the height of a 200-foot tower.
+
+### a) Find the expected value and the variance for the height obtained using this instrument once.
+
+```{r}
+h <- 200
+error <- (-2+(-1)+0+1+2)/5
+
+expected_val <- h + error
+expected_val
+
+variance <- ((-2)^2+(-1)^2+0^2+1^2+2^2)/5
+variance
+```
+
+### b) Estimate the probability that in 18 independent measurements of this tower, the average of the measurements is between 199 and 201, inclusive.
+
+$P(199<=Sn<=201)$
+
+```{r}
+standard_error <- sqrt(variance/18)
+
+avg_lower <- (199-h) / standard_error
+avg_upper <- (201-h) / standard_error
+
+p <- pnorm(avg_upper) - pnorm(avg_lower)
+
+print(round(p,3))
+```
