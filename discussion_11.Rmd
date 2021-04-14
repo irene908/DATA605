@@ -1,0 +1,60 @@
+---
+title: "DATA605_Discussion 11"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load Data
+
+The dataset is from kaggle:https://www.kaggle.com/mustafaali96/weight-height
+
+```{r}
+h_w <- read.csv("https://raw.githubusercontent.com/irene908/DATA605/main/h_w.csv")
+head(h_w)
+```
+
+## Plot
+
+```{r}
+plot(h_w)
+```
+
+## Linear Model
+
+```{r}
+L <- lm(Weight ~ Height, h_w)
+summary(L)
+```
+
+*intercept* is -350.73719 and *slope* is 7.71729 
+
+So the One-Factor Regression Model is:
+
+$Weight = -350.73719 + 7.71729 * Height$
+
+## Plot with linear model
+
+```{r}
+plot(h_w,col="maroon")
+abline(L)
+```
+
+## Residual Plot
+
+```{r}
+plot(fitted(L), resid(L))
+```
+
+The above plot shows that around zero the residuals are uniformly distributed.
+
+## Q-Q Plot
+
+The below Q-Q plot also show that the residuals are normally distributed.
+
+```{r}
+qqnorm(resid(L))
+qqline(resid(L),col="blue")
+```
