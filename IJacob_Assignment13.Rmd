@@ -1,0 +1,96 @@
+---
+title: "DATA605_HW13"
+output:
+  word_document: default
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1. 
+
+*Use integration by substitution to solve the integral below.*
+
+$\int4e^{-7x}dx$
+
+```{r}
+knitr::include_graphics("C://13.1.jpeg")
+```
+
+## 2. 
+
+*Biologists are treating a pond contaminated with bacteria.  The level of contamination is changing at a rate of* $\:\frac{\text{d}N}{\text{d}t}= -(\frac{3150}{t^{-4}})-220$ *bacteria per cubic centimeter per day, where t is the number of days since treatment began.  Find a function N(t) to estimate the level of contamination if the level after 1 day was 6530 bacteria per cubic centimeter.*
+
+```{r}
+knitr::include_graphics("C://13.2.jpeg")
+```
+
+## 3.
+
+*Find the total area of the red rectangles in the figure below, where the equation of the line is* $f(x)=2x-9$
+
+```{r}
+knitr::include_graphics("C://13.3a.jpeg")
+```
+
+```{r}
+knitr::include_graphics("C://13.3.jpeg")
+```
+
+```{r}
+a <- function(x) {2*x -9}
+integrate(a, 4.5, 8.5)
+```
+
+
+## 4.
+
+*Find the area of the region bounded by the graphs of the given equations.*
+
+$y=x^2−2x−2\\$
+$y=x+2$
+
+By solving above equations we get x=-1 and x=4
+```{r}
+eq1 <- function(x){(x^2)-(2*x)-2}
+
+eq2 <- function(x){x+2}
+
+integrate(eq1,-1,4)
+integrate(eq2,-1,4)
+```
+
+Area=17.5-(-3.333333)=20.83333
+
+## 5.
+
+*A beauty supply store expects to sell 110 flat irons during the next year.  It costs $3.75 to store one flat iron for one year.  There is a fixed cost of $8.25 for each order.  Find the lot size and the number of orders per year that will minimize inventory costs.*
+
+```{r}
+knitr::include_graphics("C://13.5a.jpeg")
+knitr::include_graphics("C://13.5b.jpeg")
+```
+
+## 6.
+
+*Use integration by parts to solve the integral below.*
+
+$\int ln(9x) x^6dx$
+
+```{r}
+knitr::include_graphics("C://13.6.jpeg")
+```
+
+## 7.
+
+*Determine whether f (x) is a probability density function on the interval [1, $e^6$].  If not, determine the value of the definite integral.*
+
+$f(x)=\frac{1}{6x}$
+
+```{r}
+knitr::include_graphics("C://13.7.jpeg")
+```

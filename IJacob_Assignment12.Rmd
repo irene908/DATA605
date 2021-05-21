@@ -1,0 +1,142 @@
+---
+title: "DATA605_HW12"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# PROBLEM STATEMENT
+
+The who.csv data set contains realworld data from 2008. The variables included follow:
+
+Country: name of the country
+
+LifeExp: average life expectancy for the country in years
+
+InfantSurvival: proportion of those surviving to one year or more
+
+Under5Survival: proportion of those surviving to five years or more
+
+TBFree: proportion of the population without TB.
+
+PropMD: proportion of the population who are MDs
+
+PropRN: proportion of the population who are RNs
+
+PersExp: mean personal expenditures on healthcare in US dollars at average exchange rate
+
+GovtExp: mean government expenditures per capita on healthcare, US dollars at avg exchange rate
+
+TotExp: sum of personal and government expenditures.
+
+### Load Dataset
+
+```{r}
+WHO <- read.csv('https://raw.githubusercontent.com/irene908/DATA605/main/who.csv')
+head(WHO)
+```
+
+## 1. 
+
+Provide a scatterplot of LifeExp~TotExp, and run simple linear regression.  Do not transform the variables. Provide and interpret the F statistics, R^2, standard error,and p-values only. Discuss whether the assumptions of simple linear regression met.
+
+```{r}
+WHO.L<-lm(LifeExp ~ TotExp,WHO)
+
+# Scatter Plot
+plot(LifeExp ~ TotExp, WHO)
+abline(WHO.L,col="red")
+
+#Linear regression summary
+summary(WHO.L)
+
+# residual plot
+plot(fitted(WHO.L), resid(WHO.L))
+abline(h=0)
+
+# Q-Q Plot of residual
+qqnorm(resid(WHO.L))
+qqline(resid(WHO.L),col="blue")
+```
+
+Residual standard error is 9.371 and F-statistic is 65.26. $R^2$ is just 0.2577. P-value is almost 0.
+
+Residuals are not normally distributed so this model is not that good.
+
+## 2.
+
+Raise life expectancy to the 4.6 power (i.e., $LifeExp^{4.6}$).  Raise total expenditures to the 0.06 power (nearly a log transform, TotExp^.06). Plot $LifeExp^{4.6}$  as a function of $TotExp^{.06}$, and r re-run the simple regression model using the transformed variables.  Provide and interpret the F statistics, $R^2$, standard error, and p-values.   Which model is "better?"
+
+```{r}
+LifeExp <- WHO$LifeExp^4.6
+TotExp <- WHO$TotExp^0.06
+
+WHO.L.new <- lm(LifeExp ~ TotExp)
+
+# Scatter Plot
+plot(LifeExp~TotExp)
+abline(WHO.L.new)
+
+# Linear regression summary
+summary(WHO.L.new)
+
+# Residual Plot
+plot(fitted(WHO.L.new), resid(WHO.L.new))
+abline(h=0)
+
+# Q-Q plot of residual
+qqnorm(resid(WHO.L.new))
+qqline(resid(WHO.L.new))
+```
+
+Residual standard error is 90490000 and F-statistic is 507.7. $R^2$ is 0.7298, which is better than in the first model. P-value is almost 0.
+
+This is a pretty good model as the variability of residual plot is fairly constant having some outliers.
+
+
+## 3.
+
+Using the results from 2, forecast life expectancy when $TotExp^.06 =1.5$.  Then forecast life expectancy when $TotExp^.06=2.5$. 
+
+```{r}
+predict(WHO.L.new, data.frame(TotExp=c(1.5,2.5)) ,interval="predict")^(1/4.6)
+```
+
+
+## 4.
+
+Build the following multiple regression model and interpret the F Statistics, $R^2$, standard error, and p-values.  How good is the model?
+
+$LifeExp = \beta_0+\beta_1 \times PropMD + \beta_2 \times TotExp + \beta_3 \times PropMD \times TotExp$
+
+```{r}
+# Multiple linear regression
+WHO.M <- lm(LifeExp ~ PropMD + TotExp + TotExp:PropMD, data=WHO)
+
+# Multiple regression summary
+summary(WHO.M)
+
+# Residuals Plot
+plot(fitted(WHO.M), resid(WHO.M))
+abline(h=0)
+
+# Q-Q plot of residual
+qqnorm(resid(WHO.M))
+qqline(resid(WHO.M))
+```
+Residual standard error is 8.765 and F-statistic is 34.49. P-value is almost 0.
+
+Residuals are not normally distributed so this model is not that good similar to the first model.
+
+
+## 5.
+
+Forecast LifeExp when $PropMD=.03$ and $TotExp = 14$.  Does this forecast seem realistic?  Why or why not?
+
+```{r}
+predict(WHO.M, data.frame(PropMD=0.03, TotExp=14),interval="predict")
+```
+
+This forecast is not realistic. The prediction is 107.696 yrs with a 95% confidence interval [84.24791,131.1441].

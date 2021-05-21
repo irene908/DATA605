@@ -1,0 +1,28 @@
+---
+title: "DATA605_HW14"
+output:
+  word_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Homework 14
+
+```{r}
+knitr::include_graphics("C://14.jpg")
+```
+
+### 1.
+
+```{r}
+knitr::include_graphics("C://14.1.jpeg")
+```
+
+### 2.
+
+```{r}
+knitr::include_graphics("C://14.2.jpeg")
+```
